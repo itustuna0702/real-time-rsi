@@ -1,19 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
     <title>Token Dashboard</title>
+    <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
-    <div class="sidebar">
-        <h3>Menu</h3>
-        <a href="/">Home</a><br>
-        <a href="/watchlist">Watchlist</a><br>
-        <a href="/rsi">MultiRSI</a>
+    <div class="navbar">
+        <button id="toggle-sidebar" class="hamburger" aria-label="Toggle Sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+        <span class="navbar-brand">📊 CryptoFlow Dashboard</span>
+        <div class="navbar-actions">
+            <button class="icon-button"><i class="fas fa-bell"></i></button>
+            <button class="icon-button"><i class="fas fa-user-circle"></i></button>
+        </div>
     </div>
-    <div class="content">
-        {% block content %}{% endblock %}
+
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-item" data-target-page="/">
+                    <a href="/">
+                        <i class="fas fa-home sidebar-icon"></i>
+                        <span class="sidebar-text">Home</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" data-target-page="/search">
+                    <a href="/search">
+                        <i class="fas fa-search sidebar-icon"></i>
+                        <span class="sidebar-text">Search</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" data-target-page="/watchlist">
+                    <a href="/watchlist">
+                        <i class="fas fa-star sidebar-icon"></i>
+                        <span class="sidebar-text">Watchlist</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" data-target-page="/multicharts">
+                    <a href="/multicharts">
+                        <i class="fas fa-chart-line sidebar-icon"></i>
+                        <span class="sidebar-text">MultiCharts</span>
+                    </a>
+                </li>
+                <!-- <li class="sidebar-item" data-target-page="/alerts">
+                    <a href="/alerts">
+                        <i class="fas fa-bell sidebar-icon"></i>
+                        <span class="sidebar-text">Alerts</span>
+                    </a>
+                </li>   
+                <li class="sidebar-item" data-target-page="/portfolio">
+                    <a href="/portfolio">
+                        <i class="fas fa-briefcase sidebar-icon"></i>
+                        <span class="sidebar-text">Portfolio</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" data-target-page="/settings">
+                    <a href="/settings">
+                        <i class="fas fa-cog sidebar-icon"></i>
+                        <span class="sidebar-text">Settings</span>
+                    </a>
+                </li> -->
+            </ul>
+        </div>
+        <div class="content">
+            {% block content %}{% endblock %} {# This is the ONLY place block content should be defined in layout.html
+            #}
+        </div>
     </div>
+    <script src="/static/js/main.js"></script>
 </body>
-</html> 
+
+</html>

@@ -1,11 +1,28 @@
-function addToWatchlist(pair) {
-    fetch("/watchlist/add", {
-        method: "POST",
+$(document).ready(function() {
+    $('#watchlist-table').DataTable({
+        ajax: '/watchlist',
+        columns: [
+            { data: 'name' },
+            { data: 'price' },
+            { data: 'rsi' },
+            {
+                data: null,
+                render: (data) => `<button onclick="removeToken('${data.id}')">Remove</button>`
+            }
+        ]
+    });
+});
+
+async function addToWatchlist(pair) {
+    await fetch('/watchlist/add', {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pair })
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log("Added to watchlist", data);
     });
-} 
+    $('#watchlist-table').DataTable().ajax.reload();
+}
+
+async function removeToken(tokenId) {
+    await fetch(`/remove/${tokenId}`, { method: 'POST' });
+    $('#watchlist-table').DataTable().ajax.reload();
+}

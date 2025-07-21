@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Search for Tokens</h1>
+    <p>Find real-time data for cryptocurrencies, pairs, and addresses.</p>
+</div>
+
+<div class="search-overlay" id="searchOverlay">
+    <div class="search-overlay-content">
+        <span class="search-overlay-close" id="closeSearchOverlay">&times;</span>
+        <input type="text" class="overlay-search-input" id="overlaySearchInput"
+            placeholder="Search tokens, pairs, addresses..." aria-label="Search tokens, pairs, addresses">
+        <div class="overlay-search-suggestions" id="overlaySearchSuggestions"></div>
+    </div>
+</div>
+
+<div class="dashboard-section">
+    <h2>Search Results</h2>
+    <p>Start typing in the search bar above to see results. (This section will eventually display dynamic search results
+        based on API calls)</p>
+    <div id="searchResultsDisplay">
+        <p>No search performed yet.</p>
+    </div>
+</div>
+
+<script src="/static/js/search_page.js"></script> {# Link to the new dedicated JS for this page #}
+{% endblock %}  

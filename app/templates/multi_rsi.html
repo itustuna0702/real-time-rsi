@@ -1,7 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
+<div class="rsi-container">
     <h2>MultiRSI</h2>
-    <button onclick="addRSIChart('SOL/USDC')">Add RSI Chart</button>
-    <div id="rsiCharts"></div>
-    <script src="/static/js/rsi.js"></script>
-{% endblock %} 
+    <button onclick="addRSIChart()">Add RSI Chart</button>
+    <div class="rsi-grid"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/static/js/rsi.js"></script>
+{% endblock %}
