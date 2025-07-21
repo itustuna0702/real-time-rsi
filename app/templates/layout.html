@@ -2,12 +2,26 @@
 <html>
 
 <head>
+    
     <title>Token Dashboard</title>
     <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    
+    <!-- GSAP for motion -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <!-- Lenis (optional smooth scroll) -->
+    <script src="https://unpkg.com/@studio-freight/lenis"></script>
+
 </head>
 
 <body>
@@ -76,5 +90,34 @@
     </div>
     <script src="/static/js/main.js"></script>
 </body>
+
+<script>
+    AOS.init({
+        duration: 1000,
+        once: true
+    });
+
+    const lenis = new Lenis({
+        duration: 1.2,
+        smooth: true
+    });
+
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    // Navbar Hover Animation
+    gsap.utils.toArray('.icon-button').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+            gsap.to(btn, { scale: 1.2, duration: 0.3, ease: 'power2.out' });
+        });
+        btn.addEventListener('mouseleave', () => {
+            gsap.to(btn, { scale: 1.0, duration: 0.3, ease: 'power2.out' });
+        });
+    });
+</script>
 
 </html>

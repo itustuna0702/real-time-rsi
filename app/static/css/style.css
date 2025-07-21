@@ -390,3 +390,40 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #3498db;
 }
+body {
+    background: linear-gradient(180deg, #1a1a1a 0%, #121212 100%);
+    color: #e0e0e0;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.card,
+.dashboard-section,
+.token-list {
+    transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.sidebar-item a {
+    transition: all 0.3s ease;
+}
+
+.sidebar-item a:hover {
+    background-color: rgba(42, 42, 42, 0.8);
+    color: #4fc3f7;
+    transform: translateX(5px);
+}
+
+.token-item {
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.token-item:hover {
+    background-color: #2a2a2a;
+    transform: translateY(-2px);
+}
