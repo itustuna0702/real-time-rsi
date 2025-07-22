@@ -2,3 +2,4 @@ Flask
 Flask-SocketIO
 requests 
 pandas
+beautifulsoup4

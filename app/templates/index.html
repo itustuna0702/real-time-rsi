@@ -1,21 +1,26 @@
 {% extends "layout.html" %}
+
 {% block content %}
+    <h2 class="text-2xl font-semibold mb-4">Search Results</h2>
 
-<h2 class="text-2xl font-bold text-gray-700 mb-4">🔍 Search Token Pools</h2>
+    <input type="text" id="search-input" class="p-2 border border-gray-300 rounded-md mb-4" placeholder="Enter token...">
+    
+    <!-- Bảng hiển thị kết quả tìm kiếm -->
+    <div class="overflow-x-auto">
+        <table class="min-w-full table-auto border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="px-4 py-2 text-left border border-gray-300">Symbol</th>
+                    <th class="px-4 py-2 text-left border border-gray-300">Description</th>
+                    <th class="px-4 py-2 text-left border border-gray-300">Exchange</th>
+                    <th class="px-4 py-2 text-left border border-gray-300">Add to Watchlist</th>
+                </tr>
+            </thead>
+            <tbody id="results-table">
+                <!-- Kết quả sẽ được hiển thị ở đây -->
+            </tbody>
+        </table>
+    </div>
 
-<div class="relative w-full max-w-xl mx-auto">
-  <input id="search-input" type="text"
-         placeholder="Enter token symbol or pair (e.g., DOGE or DOGE/SOL)"
-         class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-yellow-400" />
-
-  <!-- Danh sách gợi ý -->
-  <ul id="suggestions"
-      class="absolute left-0 right-0 bg-white border border-gray-200 mt-1 rounded-md shadow-lg hidden z-50 max-h-80 overflow-y-auto">
-      <!-- Các gợi ý sẽ được chèn vào đây bằng JavaScript -->
-  </ul>
-</div>
-
-<script src="/static/js/search.js"></script>
-
+    <script src="/static/js/search.js"></script>
 {% endblock %}
-

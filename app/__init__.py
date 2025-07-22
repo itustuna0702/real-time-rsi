@@ -10,3 +10,5 @@ def create_app():
     app.register_blueprint(rsi.bp)
 
     return app 
+
+
