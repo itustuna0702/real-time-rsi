@@ -1,7 +1,49 @@
 {% extends "layout.html" %}
+
 {% block content %}
-    <h2>Search</h2>
-    <input type="text" id="searchInput" placeholder="Enter token...">
-    <button onclick="searchToken()">Search</button>
-    <script src="/static/js/search.js"></script>
-{% endblock %} 
+<div class="page-header">
+    <h1>Welcome to Your Dashboard!</h1>
+    <p>Get a quick overview of the crypto market.</p>
+</div>
+<div class="dashboard-section">
+    <h2>Market Overview</h2>
+    <div class="card-grid">
+        <div class="card">
+            <h3>Total Market Cap</h3>
+            <p class="data-value">$2.5 Trillion</p>
+            <p class="change positive">+2.3% (24H)</p>
+        </div>
+        <div class="card">
+            <h3>BTC Dominance</h3>
+            <p class="data-value">52.8%</p>
+            <p class="change negative">-0.1% (24H)</p>
+        </div>
+        <div class="card">
+            <h3>24H Volume</h3>
+            <p class="data-value">$120 Billion</p>
+            <p class="change positive">+5.1% (24H)</p>
+        </div>
+    </div>
+</div>
+<div class="dashboard-section">
+    <h2>Trending Tokens</h2>
+    <p>Loading trending tokens...</p>
+    <div class="token-list">
+        <div class="token-item">
+            <span class="token-name">Bitcoin (BTC)</span>
+            <span class="token-price">$70,123.45</span>
+            <span class="token-change positive">+1.23%</span>
+        </div>
+        <div class="token-item">
+            <span class="token-name">Ethereum (ETH)</span>
+            <span class="token-price">$3,876.54</span>
+            <span class="token-change negative">-0.45%</span>
+        </div>
+        <div class="token-item">
+            <span class="token-name">Solana (SOL)</span>
+            <span class="token-price">$155.67</span>
+            <span class="token-change positive">+3.10%</span>
+        </div>
+    </div>
+</div>
+{% endblock %}

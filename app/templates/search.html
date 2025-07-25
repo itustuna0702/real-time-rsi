@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="text-2xl font-bold mb-2">🔍 Tìm kiếm Cặp Token</h1>
+  <p class="text-gray-400 mb-4">Nhập tên token hoặc cặp để tìm dữ liệu trực tiếp từ Dexscreener.</p>
+  <input type="text" id="searchInput" class="w-full px-4 py-3 rounded bg-[#1f1f1f] text-white focus:outline-none" placeholder="Ví dụ: SOL, WETH/USDC" oninput="performSearch()">
+</div>
+
+<div id="searchResults" class="mt-6 space-y-4">
+  <!-- Các kết quả tìm kiếm sẽ được chèn tại đây -->
+</div>
+
+<script>
+async function performSearch() {
+  const query = document.getElementById('searchInput').value.trim();
+  const container = document.getElementById('searchResults');
+  container.innerHTML = '';
+  if (!query) return;
+
+  try {
+    const res = await fetch(`/api/search-token?q=${encodeURIComponent(query)}`);
+    const data = await res.json();
+    // Sửa lại đúng key là results
+    if (!data.results || data.results.length === 0) {
+      container.innerHTML = '<p class="text-gray-400">Không tìm thấy kết quả.</p>';
+      return;
+    }
+
+    data.results.forEach(pair => {
+      const card = document.createElement('div');
+      card.className = 'bg-[#1c1c1c] p-4 rounded-lg flex justify-between items-center hover:bg-[#2a2a2a] transition';
+
+      const left = document.createElement('div');
+      left.innerHTML = `
+        <div class="text-lg font-semibold">${pair.tokenA} / ${pair.tokenB}</div>
+        <div class="text-sm text-gray-400">DEX: ${pair.dex}</div>
+      `;
+
+      const star = document.createElement('button');
+      star.innerHTML = `<i class="fa${isWatched(pair.pairAddress) ? 's' : 'r'} fa-star text-xl text-yellow-400"></i>`;
+      star.onclick = () => toggleWatchlist(pair);
+
+      card.appendChild(left);
+      card.appendChild(star);
+      container.appendChild(card);
+    });
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = '<p class="text-red-400">Lỗi khi tìm kiếm dữ liệu.</p>';
+  }
+}
+
+function isWatched(address) {
+  const watchlist = JSON.parse(localStorage.getItem('watchlist') || '[]');
+  return watchlist.includes(address);
+}
+
+function toggleWatchlist(pair) {
+  const watchlist = JSON.parse(localStorage.getItem('watchlist') || '[]');
+  const idx = watchlist.indexOf(pair.pairAddress);
+  if (idx >= 0) watchlist.splice(idx, 1);
+  else watchlist.push(pair.pairAddress);
+  localStorage.setItem('watchlist', JSON.stringify(watchlist));
+  performSearch(); // refresh
+}
+</script>
+{% endblock %}
