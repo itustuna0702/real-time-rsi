@@ -2,9 +2,9 @@ from flask import Blueprint, request, jsonify
 from rsi.fetcher import update_price_history, price_cache
 from rsi.calculator import compute_rsi
 
-bp = Blueprint("rsi", __name__)
+rsi_bp = Blueprint("rsi", __name__)  # Đổi từ bp thành rsi_bp
 
-@bp.route("/rsi")
+@rsi_bp.route("/rsi")
 def get_rsi():
     tokens = request.args.get("tokens")
     interval = int(request.args.get("interval", 60))
