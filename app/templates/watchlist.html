@@ -1,21 +1,28 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="watchlist-container">
-    <h2>Your Watchlist</h2>
-    <table id="watchlist-table" class="display">
-        <thead>
-            <tr>
-                <th>Token</th>
-                <th>Price</th>
-                <th>RSI</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/watchlist.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+<div class="container mt-5">
+    <div class="watchlist-header">
+        <h2 class="watchlist-title">⭐ Danh sách token theo dõi</h2>
+        <a href="/search" class="search-bar-link">
+            <i class="fas fa-search"></i>
+            <span>Tìm kiếm cặp token</span>
+        </a>
+    </div>
+
+    <div id="watchlist-container" class="mt-4">
+        </div>
+
+    <div class="add-pair-container mt-4">
+        <button id="add-pair-btn" class="btn btn-primary-custom">
+            <i class="fas fa-plus-circle"></i> Thêm cặp toke mới
+        </button>
+    </div>
 </div>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="/static/js/watchlist.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ url_for('static', filename='js/watchlist.js') }}"></script>
 {% endblock %}

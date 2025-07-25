@@ -17,6 +17,12 @@ def init_socketio(socketio):
     def handle_connect():
         print('Client connected')
 
-    @socketio.on('disconnect')
-    def handle_disconnect():
-        print('Client disconnected')
+
+@bp.route('/watchlist')
+def watchlist():
+    return render_template('watchlist.html')
+
+@bp.route("/multi_rsi")
+def show_multi_rsi():
+    return render_template("multi_rsi.html")
+
