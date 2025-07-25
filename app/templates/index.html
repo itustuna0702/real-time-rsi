@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
+
 {% block content %}
 <div class="page-header">
     <h1>Welcome to Your Dashboard!</h1>
     <p>Get a quick overview of the crypto market.</p>
 </div>
-
 <div class="dashboard-section">
     <h2>Market Overview</h2>
     <div class="card-grid">
@@ -25,13 +25,8 @@
         </div>
     </div>
 </div>
-
 <div class="dashboard-section">
     <h2>Trending Tokens</h2>
-    <div class="search-container-main"> <input type="text" id="search-input" placeholder="Search for a token..."
-            aria-label="Search for a token">
-        <div id="search-dropdown" class="search-dropdown"></div>
-    </div>
     <p>Loading trending tokens...</p>
     <div class="token-list">
         <div class="token-item">
@@ -51,17 +46,4 @@
         </div>
     </div>
 </div>
-<div class="dashboard-section" data-aos="fade-up">
-    <h2>Market Overview</h2>
-    <div class="card-grid">
-        <div class="card" data-aos="fade-up" data-aos-delay="100">
-            <h3>Total Market Cap</h3>
-            <p class="data-value">$2.5 Trillion</p>
-            <p class="change positive">+2.3% (24H)</p>
-        </div>
-        <!-- Các card khác cũng thêm data-aos tương tự -->
-    </div>
-</div>
-
-<script src="/static/js/search.js"></script>
 {% endblock %}

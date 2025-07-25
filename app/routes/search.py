@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, request, jsonify, render_template
+import requests
 
 search_bp = Blueprint('search', __name__)
 
@@ -6,15 +7,31 @@ search_bp = Blueprint('search', __name__)
 def search_page():
     return render_template('search.html')
 
-# You might also add an API endpoint for search suggestions if needed
-# @search_bp.route('/api/search_suggestions')
-# def api_search_suggestions():
-#     query = request.args.get('q', '').lower()
-#     # Implement logic to fetch suggestions from your token_service
-#     # For now, return mock data
-#     mock_suggestions = [
-#         'Bitcoin (BTC)', 'Ethereum (ETH)', 'Solana (SOL)', 'Cardano (ADA)',
-#         # ... more tokens
-#     ]
-#     filtered_suggestions = [s for s in mock_suggestions if query in s.lower()]
-#     return jsonify(filtered_suggestions)
+
+@search_bp.route('/api/search-token')
+def api_search_token():
+    query = request.args.get('q', '').strip()
+    if not query:
+        return jsonify(results=[])
+
+    try:
+        res = requests.get(f"https://api.dexscreener.com/latest/dex/search?q={query}", timeout=5)
+        res.raise_for_status()
+        pairs = res.json().get("pairs", [])
+    except Exception as e:
+        print("Dexscreener error:", e)
+        return jsonify(results=[])
+
+    results = []
+    for p in pairs[:15]:
+        base = p.get("baseToken", {})
+        quote = p.get("quoteToken", {})
+        results.append({
+            "tokenA": base.get("symbol", ""),
+            "tokenB": quote.get("symbol", ""),
+            "chain": p.get("chainId", ""),
+            "dex": p.get("dexId", ""),
+            "logoA": base.get("logoURI", ""),
+            "logoB": quote.get("logoURI", "")
+        })
+    return jsonify(results=results)

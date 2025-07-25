@@ -1,56 +1,63 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('search-input');
-    const searchDropdown = document.getElementById('search-dropdown');
+function openSearchModal() {
+  document.getElementById('searchModal').classList.remove('hidden');
+  document.getElementById('tokenSearchInput').focus();
+}
 
-    const mockSuggestions = [
-        'Bitcoin (BTC)', 'Ethereum (ETH)', 'Solana (SOL)', 'Cardano (ADA)',
-        'XRP (XRP)', 'Dogecoin (DOGE)', 'Shiba Inu (SHIB)', 'Litecoin (LTC)',
-        'Chainlink (LINK)', 'Polkadot (DOT)', 'Avalanche (AVAX)', 'Uniswap (UNI)',
-        'Binance Coin (BNB)', 'Tron (TRX)', 'Cosmos (ATOM)', 'Polygon (MATIC)',
-        // Add more relevant crypto examples
-    ];
+function closeSearchModal() {
+  document.getElementById('searchModal').classList.add('hidden');
+}
 
-    if (searchInput && searchDropdown) {
-        searchInput.addEventListener('input', () => {
-            const query = searchInput.value.toLowerCase();
-            searchDropdown.innerHTML = ''; // Clear previous suggestions
+function goToChart(tokenA, tokenB) {
+  window.location.href = `/chart/${tokenA}/${tokenB}`;
+}
 
-            if (query.length > 0) {
-                const filteredSuggestions = mockSuggestions.filter(item =>
-                    item.toLowerCase().includes(query)
-                ).slice(0, 10); // Limit to top 10 suggestions
+function getWatchlist() {
+  return JSON.parse(localStorage.getItem('watchlist') || '[]');
+}
 
-                if (filteredSuggestions.length > 0) {
-                    filteredSuggestions.forEach(suggestion => {
-                        const div = document.createElement('div');
-                        div.classList.add('search-dropdown-item');
-                        div.textContent = suggestion;
-                        div.addEventListener('click', () => {
-                            searchInput.value = suggestion;
-                            searchDropdown.style.display = 'none';
-                            // Here you can trigger a search action, e.g., redirect to a token page
-                            console.log(`Searching for: ${suggestion}`);
-                            // Example: window.location.href = `/token/${encodeURIComponent(suggestion.split('(')[0].trim())}`;
-                        });
-                        searchDropdown.appendChild(div);
-                    });
-                    searchDropdown.style.display = 'block';
-                } else {
-                    searchDropdown.style.display = 'none';
-                }
-            } else {
-                searchDropdown.style.display = 'none';
-            }
-        });
+function toggleWatchlist(tokenA, tokenB) {
+  const key = `${tokenA}_${tokenB}`;
+  let list = getWatchlist();
+  if (list.includes(key)) {
+    list = list.filter(item => item !== key);
+  } else {
+    list.push(key);
+  }
+  localStorage.setItem('watchlist', JSON.stringify(list));
+  handleSearchInput(); // refresh list
+}
 
-        // Hide dropdown when clicking outside
-        document.addEventListener('click', (event) => {
-            if (!searchInput.contains(event.target) && !searchDropdown.contains(event.target)) {
-                searchDropdown.style.display = 'none';
-            }
-        });
+async function handleSearchInput() {
+  const query = document.getElementById('tokenSearchInput').value.trim();
+  const container = document.getElementById('searchSuggestions');
+  container.innerHTML = '';
+  if (!query) return;
 
-        // Optional: Handle keyboard navigation in dropdown
-        // (More advanced feature, omitted for brevity but recommended for production)
-    }
-});
+  const res = await fetch(`/api/search-token?q=${encodeURIComponent(query)}`);
+  const data = await res.json();
+  const results = data.results || [];
+  const watchlist = getWatchlist();
+
+  results.forEach(pair => {
+    const key = `${pair.tokenA}_${pair.tokenB}`;
+    const isSaved = watchlist.includes(key);
+
+    const div = document.createElement('div');
+    div.className = "flex items-center justify-between py-3 px-2 hover:bg-[#2a2a2a] cursor-pointer";
+
+    div.innerHTML = `
+      <div class="flex items-center gap-3" onclick="goToChart('${pair.tokenA}','${pair.tokenB}')">
+        <img src="${pair.logoA}" class="w-6 h-6 rounded-full" />
+        <img src="${pair.logoB}" class="w-6 h-6 rounded-full -ml-2 border-2 border-[#1e1e1e]" />
+        <div>
+          <div class="font-semibold">${pair.tokenA}/${pair.tokenB} <span class="text-xs text-gray-400">(${pair.chain})</span></div>
+          <div class="text-xs text-gray-400">${pair.dex}</div>
+        </div>
+      </div>
+      <button onclick="event.stopPropagation(); toggleWatchlist('${pair.tokenA}','${pair.tokenB}')">
+        <i class="fas fa-star ${isSaved ? 'text-yellow-400' : 'text-gray-500'} text-xl"></i>
+      </button>
+    `;
+    container.appendChild(div);
+  });
+}
